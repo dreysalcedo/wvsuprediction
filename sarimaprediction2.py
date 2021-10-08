@@ -28,18 +28,6 @@ import statsmodels.api as sm
 from statsmodels.tsa.arima_model import ARIMA
 from pandas.tseries.offsets import DateOffset
 
-#database 
-connection  = mysql.connector.connect(
-    host = "#",
-    user = "#",
-    password = "#",
-    database = "#"    
-    )
-#if connected to the database print <mysql.connector.connection.MySQLConnection object at 0x000001CC6743CFA0>
-print(connection)
-#for query
-cursor = connection.cursor()
-
 
 
 
@@ -136,7 +124,7 @@ model=sm.tsa.statespace.SARIMAX(df['Sales'],order=(1, 1, 1),seasonal_order=(1,1,
 results=model.fit()
 #PREDICT
 df['forecast']=results.predict(start=60,end=85,dynamic=True)#GIN PREDICT ANG INDEX 60 T O 85
-current_prediction = df[['Sales','forecast']].plot(figsize=(12,8))
+df[['Sales','forecast']].plot(figsize=(12,8))
 plt.show()
 #FORECASTING
 print("FORECASTING")
@@ -145,112 +133,7 @@ future_datest_df=pd.DataFrame(index=future_dates[1:],columns=df.columns)
 future_datest_df.tail()
 future_df=pd.concat([df,future_datest_df])
 future_df['forecast'] = results.predict(start = 83, end = 120, dynamic= True)  #GIN PREDICT ANG INDEX 83 TO FUTURE
-future_prediction = future_df[['Sales', 'forecast']].plot(figsize=(12, 8))
+future_df[['Sales', 'forecast']].plot(figsize=(12, 8))
 plt.show()
 
  
-
-#upload
-try: 
-    print("image uploaded")
-    query1 = "INSERT INTO currentprediction(image)VALUES('%s')" 
-    query2 = "INSERT INTO futureprediction(image)VALUES('%s')"
-    result1 = cursor.execute(query1, current_prediction)
-    result2 = cursor.execute(query2, future_prediction)
-    connection.commit()
- 
-# Print error if occured
-except mysql.connector.Error as error:
-    print(format(error))
-finally:   
-    # Closing all resources
-    if connection.is_connected():
-       
-        cursor.close()
-        connection.close()
-        print("MySQL connection is closed")    
-
-
-# def write_file(data, filename):
-#     with open(filename, 'wb') as f:
-#         f.write(data)
-        
-# def read_blob(author_id, filename):
-#     # select photo column of a specific author
-#     query = "SELECT image FROM futureprediction WHERE id = %s"  
-    
-   
-
-#     try:
-#         # query blob data form the authors table
-    
-#         cursor = connection.cursor()
-#         cursor.execute(query, (author_id,))
-#         photo = cursor.fetchone()[0]
-#         # write blob data into a file
-#         write_file(photo, filename)
-     
-   
-#     finally:
-#         cursor.close()
-#         connection.close()
-# def main():
-#     read_blob(1,"futureprediction.png")
-# if __name__ == '__main__':
-#     main()
-
-# import sys
-
-# def showFile(blob):
-#     print( "Content-Type: image/jpeg\r\n")
-#     sys.stdout.flush()
-#     print (sys.stdout.buffer.write(image))
-   
-
-# def getFile():
-#     id = 1
-#     sql = "SELECT image FROM futureprediction WHERE id = %s"  
-#     cursor.execute(id, sql)
-#     data = cursor.fetchone()
-#     blob = data[0]
-
-#     return blob
-
-# image = getFile()
-# showFile(image)
-
-import mysql.connector
-
-db = mysql.connector.connect(
-     host = "#",
-    user = "#",
-    password = "#",
-    database = "#"     
-    )
-cursor = db.cursor()
-
-
-def InsertBlob(FilePath):
-    with open(FilePath, "rb") as File:
-        BinaryData = File.read()
-    SQLStatement = "INSERT INTO furrentprediction(image)VALUES('%s')" 
-    cursor.execute(SQLStatement, BinaryData, )
-    db.commit()
-
-def RetrieveBlob(id):
-     SQLStatement2 = "SELECT * FROM futureprediction WHERE id = '{0}'"
-     cursor.execute(SQLStatement2.format(str(id)))
-     MyResult = cursor.fetchone()[1]
-     StoreFilePath = "static/uploads/img{0}.jpg".format(str(id))
-     print(MyResult)
-     with open(StoreFilePath, "wb") as File:
-         File.write(MyResult)
-         File.close()
-
-
-# current_filepath = current_prediction
-# future_filepath = future_prediction
-# #uploading
-# InsertBlob(current_filepath)
-# InsertBlob(future_filepath)
-

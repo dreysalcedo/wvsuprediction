@@ -8,10 +8,10 @@ Created on Thu Sep 30 18:51:27 2021
 import mysql.connector
 
 db = mysql.connector.connect(
-     host = "sdffea.com",
-    user = "ezpaydbadmin",
-    password = "WvsuCictThesis2020",
-    database = "ezpaydb"     
+     host = "#",
+    user = "#",
+    password = "#",
+    database = "#"     
     )
 cursor = db.cursor()
 

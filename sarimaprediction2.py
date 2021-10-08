@@ -30,10 +30,10 @@ from pandas.tseries.offsets import DateOffset
 
 #database 
 connection  = mysql.connector.connect(
-    host = "sdffea.com",
-    user = "ezpaydbadmin",
-    password = "WvsuCictThesis2020",
-    database = "ezpaydb"    
+    host = "#",
+    user = "#",
+    password = "#",
+    database = "#"    
     )
 #if connected to the database print <mysql.connector.connection.MySQLConnection object at 0x000001CC6743CFA0>
 print(connection)
@@ -222,10 +222,10 @@ finally:
 import mysql.connector
 
 db = mysql.connector.connect(
-     host = "sdffea.com",
-    user = "ezpaydbadmin",
-    password = "WvsuCictThesis2020",
-    database = "ezpaydb"     
+     host = "#",
+    user = "#",
+    password = "#",
+    database = "#"     
     )
 cursor = db.cursor()
 
